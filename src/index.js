@@ -1,6 +1,13 @@
+const express=require("express");
 const calculosFns=require("./calculosFns");
+const app=express();
+app.use(express.json());
 
-app.post("./calculos", (req, res)=>{
+app.get("/", (req, res)=>{
+    res.send("Servidor funcionando correctamente.");
+});
+
+app.post("/calculos", (req, res)=>{
     try{
         const {numeros, operacion}=req.body;
         const funcion=calculosFns.find((f)=>f.name===operacion);
@@ -10,4 +17,8 @@ app.post("./calculos", (req, res)=>{
     }catch(e){
         res.status(500).json({mensaje: e.message});
     }
+});
+
+app.listen(5000, ()=>{
+    console.log("App funciona.")
 });
